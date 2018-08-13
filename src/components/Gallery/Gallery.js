@@ -17,7 +17,7 @@ class Gallery extends React.Component {
     };
   }
 
-  getGalleryWidth(){
+  getGalleryWidth() {
     try {
       return document.body.clientWidth;
     } catch (e) {
@@ -40,7 +40,7 @@ class Gallery extends React.Component {
           res.photos.photo &&
           res.photos.photo.length > 0
         ) {
-          this.setState({images: res.photos.photo});
+          this.setState({ images: res.photos.photo });
         }
       });
   }
@@ -56,11 +56,32 @@ class Gallery extends React.Component {
     this.getImages(props.tag);
   }
 
+  addCloneImage = (key) => {
+
+    let cloneImage = null;
+
+    for(var i = 0; i < this.state.images.length; i++){
+      if(key === this.state.images[i]){
+        cloneImage = this.state.images[i];
+        break;
+      }
+    }
+
+    if(cloneImage != null){
+
+      let new_images = this.state.images
+      new_images.push(cloneImage);
+      this.setState({images: new_images});
+    }
+  }
+
   render() {
     return (
       <div className="gallery-root">
-        {this.state.images.map(dto => {
-          return <Image key={'image-' + dto.id} dto={dto} galleryWidth={this.state.galleryWidth}/>;
+
+        {this.state.images.map((dto, index) => {
+          return <Image key={`image-${index}`} dto={dto} galleryWidth={this.state.galleryWidth}
+          cloneImage={this.addCloneImage}/>;
         })}
       </div>
     );

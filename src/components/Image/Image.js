@@ -16,7 +16,9 @@ class Image extends React.Component {
       size: 200,
       filterName: ''
     };
+
     this.cliceHendlerFilter = this.cliceHendlerFilter.bind(this);
+    this.clickHendlerClone = this.clickHendlerClone.bind(this);
   }
 
   calcImageSize() {
@@ -40,10 +42,15 @@ class Image extends React.Component {
   }
 
   cliceHendlerFilter(){
+
     const filterNames = ['filter-grace', 'filter-contrast', 'filter-darken', 'filter-invert', 'filter-sepia'];
     const max = 5;
     const filterIdx = Math.floor(Math.random() * max);
     this.setState({filterName: filterNames[filterIdx]});
+  }
+
+  clickHendlerClone(){
+    this.props.cloneImage(this.props.dto);
   }
 
   render() {
@@ -58,7 +65,7 @@ class Image extends React.Component {
         }}
         >
         <div>
-          <FontAwesome className="image-icon" name="clone" title="clone" />
+          <FontAwesome className="image-icon" name="clone" title="clone" onClick={this.clickHendlerClone}/>
           <FontAwesome className="image-icon" name="filter" title="filter" onClick={this.cliceHendlerFilter}/>
           <FontAwesome className="image-icon" name="expand" title="expand"/>
         </div>

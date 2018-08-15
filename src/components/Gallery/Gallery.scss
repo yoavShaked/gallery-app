@@ -1,5 +1,7 @@
 .gallery-root {
   text-align: center;
+  padding: 0;
+  margin: 0;
 }
 
 .gallery-header {
@@ -11,4 +13,9 @@
 
 .gallery-intro {
   font-size: 15pt;
+}
+
+.darker-screen{
+  filter: brightness(.5);
+  -webkit-filter: brightness(.5);
 }

@@ -24,6 +24,7 @@ class Gallery extends React.Component {
       return 1000;
     }
   }
+
   getImages(tag) {
     const getImagesUrl = `services/rest/?method=flickr.photos.search&api_key=522c1f9009ca3609bcbaf08545f067ad&tags=${tag}&tag_mode=any&per_page=100&format=json&safe_search=1&nojsoncallback=1`;
     const baseUrl = 'https://api.flickr.com/';
@@ -56,33 +57,35 @@ class Gallery extends React.Component {
     this.getImages(props.tag);
   }
 
+
   addCloneImage = (key) => {
 
     let cloneImage = null;
 
-    for(var i = 0; i < this.state.images.length; i++){
-      if(key === this.state.images[i]){
+    for (var i = 0; i < this.state.images.length; i++) {
+      if (key === this.state.images[i]) {
         cloneImage = this.state.images[i];
         break;
       }
     }
 
-    if(cloneImage != null){
+    if (cloneImage != null) {
 
-      let new_images = this.state.images
-      new_images.push(cloneImage);
-      this.setState({images: new_images});
+      let newImages = this.state.images
+      newImages.push(cloneImage);
+      this.setState({ images: newImages });
     }
   }
 
   render() {
     return (
-      <div className="gallery-root">
-
-        {this.state.images.map((dto, index) => {
-          return <Image key={`image-${index}`} dto={dto} galleryWidth={this.state.galleryWidth}
-          cloneImage={this.addCloneImage}/>;
-        })}
+      <div>
+        <div className='gallery-root'>
+          {this.state.images.map((dto, index) => {
+            return <Image key={`image-${index}`} dto={dto} galleryWidth={this.state.galleryWidth}
+              cloneImage={this.addCloneImage} expendImage={this.props.expendImageCallback} visibleIcones={true}/>;
+          })}
+        </div>
       </div>
     );
   }

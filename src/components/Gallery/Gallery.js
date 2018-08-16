@@ -13,7 +13,8 @@ class Gallery extends React.Component {
     super(props);
     this.state = {
       images: [],
-      galleryWidth: this.getGalleryWidth()
+      galleryWidth: this.getGalleryWidth(),
+      tagValue: ''
     };
   }
 
@@ -25,8 +26,15 @@ class Gallery extends React.Component {
     }
   }
 
-  getImages(tag) {
-    const getImagesUrl = `services/rest/?method=flickr.photos.search&api_key=522c1f9009ca3609bcbaf08545f067ad&tags=${tag}&tag_mode=any&per_page=100&format=json&safe_search=1&nojsoncallback=1`;
+  getImages(tag, numOfPics) {
+
+    if (this.state.tagValue != tag) {
+      this.setState({ tagValue: tag });
+      numOfPics = 100;
+      this.setState({ images: [] });
+    }
+
+    const getImagesUrl = `services/rest/?method=flickr.photos.search&api_key=522c1f9009ca3609bcbaf08545f067ad&tags=${tag}&tag_mode=any&per_page=${numOfPics}&format=json&safe_search=1&nojsoncallback=1`;
     const baseUrl = 'https://api.flickr.com/';
     axios({ url: getImagesUrl, baseURL: baseUrl, method: 'GET' })
       .then(res => res.data)
@@ -45,7 +53,8 @@ class Gallery extends React.Component {
   componentDidMount() {
 
     window.addEventListener('scroll', this.onScroll, false);
-    this.getImages(this.props.tag);
+    this.setState({ tagValue: this.props.tag });
+    this.getImages(this.props.tag, 100);
     this.setState({ galleryWidth: document.body.clientWidth });
   }
 
@@ -54,7 +63,7 @@ class Gallery extends React.Component {
   }
 
   componentWillReceiveProps(props) {
-    this.getImages(props.tag);
+    this.getImages(props.tag, 100);
   }
 
   addCloneImage = (key) => {
@@ -69,17 +78,14 @@ class Gallery extends React.Component {
     }
 
     if (cloneImage != null) {
-
-      let newImages = this.state.images
-      newImages.push(cloneImage);
-      this.setState({ images: newImages });
+      this.setState(previousState => ({ images: [...previousState.images, cloneImage] }));
     }
   }
 
   onScroll = () => {
 
     if ((window.innerHeight + window.scrollY) >= (document.body.offsetHeight) && this.state.images.length > 0) {
-      this.getImages(this.props.tag);
+      this.getImages(this.props.tag, 25);
     }
   }
 

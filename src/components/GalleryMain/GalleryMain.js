@@ -3,6 +3,7 @@ import Gallery from './../Gallery/index';
 import './GalleryMain.scss';
 import ExpendImage from './../ExpendImage/ExpendImage';
 import Image from './../Image/Image';
+import {DebounceInput} from 'react-debounce-input';
 
 class GalleryMain extends React.Component {
 
@@ -25,15 +26,20 @@ class GalleryMain extends React.Component {
         this.setState({ show: true });
     };
 
+    handleChang = (event) => {
+        this.setState({ tag: event.target.value })
+    };
+
     render() {
         return (
             <main className='gallery-main-root'>
                 <div>
                     <div className='gallery-main-header'>
                         <h2>Flickr Gallery</h2>
-                        <input
+                        <DebounceInput
                             className="gallery-main-input"
-                            onChange={event => this.setState({ tag: event.target.value })}
+                            debounceTimeout={500}
+                            onChange={this.handleChang}
                             value={this.state.tag} />
                     </div>
                     <Gallery

@@ -28,35 +28,34 @@ class Gallery extends React.Component {
   getImages(tag) {
     const getImagesUrl = `services/rest/?method=flickr.photos.search&api_key=522c1f9009ca3609bcbaf08545f067ad&tags=${tag}&tag_mode=any&per_page=100&format=json&safe_search=1&nojsoncallback=1`;
     const baseUrl = 'https://api.flickr.com/';
-    axios({
-      url: getImagesUrl,
-      baseURL: baseUrl,
-      method: 'GET'
-    })
+    axios({ url: getImagesUrl, baseURL: baseUrl, method: 'GET' })
       .then(res => res.data)
       .then(res => {
-        if (
-          res &&
-          res.photos &&
-          res.photos.photo &&
-          res.photos.photo.length > 0
-        ) {
-          this.setState({ images: res.photos.photo });
+        if (res && res.photos && res.photos.photo && res.photos.photo.length > 0) {
+          this.setState(previousState => ({
+            images: [
+              ...previousState.images,
+              ...res.photos.photo
+            ]
+          }));
         }
       });
   }
 
   componentDidMount() {
+
+    window.addEventListener('scroll', this.onScroll, false);
     this.getImages(this.props.tag);
-    this.setState({
-      galleryWidth: document.body.clientWidth
-    });
+    this.setState({ galleryWidth: document.body.clientWidth });
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.onScroll, false);
   }
 
   componentWillReceiveProps(props) {
     this.getImages(props.tag);
   }
-
 
   addCloneImage = (key) => {
 
@@ -77,14 +76,29 @@ class Gallery extends React.Component {
     }
   }
 
+  onScroll = () => {
+
+    if ((window.innerHeight + window.scrollY) >= (document.body.offsetHeight) && this.state.images.length > 0) {
+      this.getImages(this.props.tag);
+    }
+  }
+
   render() {
     return (
       <div>
         <div className='gallery-root'>
-          {this.state.images.map((dto, index) => {
-            return <Image key={`image-${index}`} dto={dto} galleryWidth={this.state.galleryWidth}
-              cloneImage={this.addCloneImage} expendImage={this.props.expendImageCallback} visibleIcones={true}/>;
-          })}
+          {this
+            .state
+            .images
+            .map((dto, index) => {
+              return <Image
+                key={`image-${index}`}
+                dto={dto}
+                galleryWidth={this.state.galleryWidth}
+                cloneImage={this.addCloneImage}
+                expendImage={this.props.expendImageCallback}
+                visibleIcones={true} />;
+            })}
         </div>
       </div>
     );

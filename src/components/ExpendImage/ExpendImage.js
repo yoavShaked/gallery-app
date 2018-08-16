@@ -1,8 +1,6 @@
 import React from 'react';
 import './ExpendImage.scss';
 
-
-
 class ExpendImage extends React.Component {
 
     constructor(props){

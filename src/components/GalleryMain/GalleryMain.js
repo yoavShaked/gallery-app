@@ -9,7 +9,7 @@ class GalleryMain extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            expendImageDto: '',
+            expendImageDto: {},
             tag: 'art',
             show: false
         };
@@ -23,7 +23,6 @@ class GalleryMain extends React.Component {
 
         this.setState({ expendImageDto: imageDto });
         this.setState({ show: true });
-        //this.child.expendImgaeSize();
     };
 
     render() {

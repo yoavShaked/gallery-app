@@ -16,7 +16,9 @@ class Image extends React.Component {
 
     this.state = {
       size: 200,
-      filterName: ''
+      filterName: '',
+      imageWidth: '20%',
+      canExpend: true
     };
 
     this.cliceHendlerFilter = this.cliceHendlerFilter.bind(this);
@@ -36,12 +38,50 @@ class Image extends React.Component {
 
 
   componentDidMount() {
-    
-    if(this.props.visibleIcones){
+    window.addEventListener('resize', this.handleWindowResize, false);
+    this.setImageSize();
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.handleWindowResize, false);
+  }
+
+  handleWindowResize = () => {
+    this.setImageSize();
+  }
+
+  setImageSize() {
+    if (this.props.visibleIcones) {
+
       this.calcImageSize();
+      if (window.innerWidth > 750) {
+        this.setState({ canExpend: true });
+        this.setState({ imageWidth: '20%' });
+      }
+      else if(window.innerWidth <= 750 && window.innerWidth > 550){
+        this.setState({ canExpend: true });
+        this.setState({ imageWidth: '33.33%' });
+      }
+      else if(window.innerWidth <= 550 && window.innerWidth > 350){
+        this.setState({ canExpend: true });
+        this.setState({ imageWidth: '50%' });
+      }
+      else{
+        this.setState({ canExpend: false });
+        this.setState({ imageWidth: '100%' });
+      }
     }
-    else{
-      this.setState({size: 400});
+    else {
+      this.setState({ canExpend: false });
+
+      if (window.innerWidth > 750) {
+        this.setState({ size: 400 });
+      }
+      else {
+        this.setState({ size: 300 });
+      }
+
+      this.setState({ imageWidth: '75%' });
     }
   }
 
@@ -65,26 +105,22 @@ class Image extends React.Component {
     this.props.expendImage(this.props.dto);
   }
 
-  expendImgaeSize(){
-    this.setState({size: 400});
-  }
-
   render() {
-    const {visibleIcones} = this.props;
+    const { visibleIcones } = this.props;
 
     return (
       <div
         className={`image-root ${this.state.filterName}`}
         style={{
           backgroundImage: `url(${this.urlFromDto(this.props.dto)})`,
-          width: this.state.size + 'px',
-          height: this.state.size + 'px'
+          width: `${this.state.imageWidth}`,
+          height: `${this.state.size}px`
         }}
       >
         <div>
           {visibleIcones && <FontAwesome className="image-icon" name="clone" title="clone" onClick={this.clickHendlerClone} />}
           {visibleIcones && <FontAwesome className="image-icon" name="filter" title="filter" onClick={this.cliceHendlerFilter} />}
-          {visibleIcones && <FontAwesome className="image-icon" name="expand" title="expand" onClick={this.clickHendlerExpend} />}
+          {this.state.canExpend && <FontAwesome className="image-icon" name="expand" title="expand" onClick={this.clickHendlerExpend} />}
         </div>
       </div>
     );

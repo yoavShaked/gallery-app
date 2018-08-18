@@ -85,27 +85,30 @@ class Gallery extends React.Component {
   onScroll = () => {
 
     if ((window.innerHeight + window.scrollY) >= (document.body.offsetHeight) && this.state.images.length > 0) {
-      this.getImages(this.props.tag, 25);
+      this.getImages(this.props.tag, 50);
     }
+  }
+
+  renderImages() {
+    return (
+      this.state.images.map((dto, index) => {
+        return <Image
+          className='col-2'
+          key={`image-${index}`}
+          dto={dto}
+          galleryWidth={this.state.galleryWidth}
+          cloneImage={this.addCloneImage}
+          expendImage={this.props.expendImageCallback}
+          visibleIcones={true}
+        />;
+      })
+    );
   }
 
   render() {
     return (
-      <div>
-        <div className='gallery-root'>
-          {this
-            .state
-            .images
-            .map((dto, index) => {
-              return <Image
-                key={`image-${index}`}
-                dto={dto}
-                galleryWidth={this.state.galleryWidth}
-                cloneImage={this.addCloneImage}
-                expendImage={this.props.expendImageCallback}
-                visibleIcones={true} />;
-            })}
-        </div>
+      <div className='gallery-root col-12'>
+        {this.renderImages()}
       </div>
     );
   }

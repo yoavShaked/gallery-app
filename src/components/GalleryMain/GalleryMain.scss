@@ -1,5 +1,7 @@
+
 .gallery-main-root{
     text-align: center;
+    width: 100%;
     padding: 0;
     margin: 0;
 }
@@ -21,4 +23,38 @@
     width: 400px;
     margin-bottom: 30px;
 }
-  
+
+.expend-image{
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+@media only screen and (max-width: 768px) {
+  /* For mobile phones: */
+
+  .gallery-main-root{
+    width: 100%;
+    display: block;
+  }
+
+  .gallery-main-header{
+    width: 100%;
+    display: block;
+  }
+
+  .gallery-main-input{
+    width: 60%;
+    padding: 0 8px;
+  }
+
+  .expend-image{
+    width: 100%;
+    height: 60%;
+    display: block;
+  }
+}

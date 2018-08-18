@@ -13,7 +13,7 @@ class ExpendImage extends React.Component {
 
         return (
             <div className={showOrHideClassName}>
-                <section className='expend-image-main'>
+                <section className='expend-image-main col-9'>
                     {this.props.children}
                     <button className='button-close-window' onClick={this.props.closeHandler}>x</button>
                 </section>

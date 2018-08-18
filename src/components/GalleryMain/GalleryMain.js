@@ -3,7 +3,7 @@ import Gallery from './../Gallery/index';
 import './GalleryMain.scss';
 import ExpendImage from './../ExpendImage/ExpendImage';
 import Image from './../Image/Image';
-import {DebounceInput} from 'react-debounce-input';
+import { DebounceInput } from 'react-debounce-input';
 
 class GalleryMain extends React.Component {
 
@@ -46,7 +46,7 @@ class GalleryMain extends React.Component {
                         tag={this.state.tag}
                         expendImageCallback={this.expendImageEvent} />
                     <ExpendImage show={this.state.show} closeHandler={this.hideImage}>
-                        <Image key='expend-image' dto={this.state.expendImageDto} visibleIcones={false}/>
+                        <Image key='expend-image' dto={this.state.expendImageDto} visibleIcones={false} className='expend-image'/>
                     </ExpendImage>
                 </div>
             </main>

@@ -28,3 +28,30 @@
 .button-close-window{
     float: right;
 }
+
+
+* {
+    box-sizing: border-box;
+  }
+
+  .col-9 {width: 75%;
+    height: 75%;}
+
+  [class*="col-"] {
+    padding: 0;
+    display: block;
+  }
+  
+  @media only screen and (max-width: 768px) {
+
+    [class*="col-"]{
+        display: block;
+        width: 100%;
+    }
+
+    .button-close-window{
+        float: right;
+        position: relative;
+    }
+  }
+  

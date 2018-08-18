@@ -1,14 +1,14 @@
 import React from 'react';
 import {mount} from 'enzyme';
 import {expect} from 'chai';
-import App from './App.js';
+import GalleryMain from './GalleryMain';
 
 describe('App', () => {
   let wrapper;
 
   beforeEach(() => {
     wrapper = mount(
-      <App/>,
+      <GalleryMain/>,
       {attachTo: document.createElement('div')}
     );
   });
